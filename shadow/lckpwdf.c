@@ -24,6 +24,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/file.h>
+#include <bits/sigsetops.h>
 
 #include <kernel-features.h>
 

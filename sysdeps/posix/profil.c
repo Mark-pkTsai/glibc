@@ -22,6 +22,7 @@
 #include <signal.h>
 #include <sys/time.h>
 #include <libc-internal.h>
+#include <bits/sigsetops.h>
 
 #ifndef SIGPROF
 

@@ -17,9 +17,12 @@
 
 /* Definitions relevant to functions that operate on `sigset_t's.  */
 
+#ifndef SIGSETOPS_H
+
 #include <errno.h>
 #include <signal.h>
 #include <string.h>
+#include <bits/sigsetops.h>
 
 #define	BITS		(_NSIG - 1)
 #define	ELT(signo)	(((signo) - 1) / BITS)
@@ -30,3 +33,5 @@
 #undef	sigaddset
 #undef	sigdelset
 #undef	sigismember
+
+#endif

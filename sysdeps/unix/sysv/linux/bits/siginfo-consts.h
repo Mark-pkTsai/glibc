@@ -1,4 +1,4 @@
-/* siginfo_t, sigevent and constants.  Stub version.
+/* siginfo constants.  Linux version.
    Copyright (C) 1997-2017 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -16,57 +16,50 @@
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-#if !defined _SIGNAL_H && !defined __need_siginfo_t \
-    && !defined __need_sigevent_t
-# error "Never include this file directly.  Use <signal.h> instead"
+#ifndef _BITS_SIGINFO_CONSTS_H
+#define _BITS_SIGINFO_CONSTS_H 1
+
+#ifndef _SIGNAL_H
+#error "Don't include <bits/siginfo-consts.h> directly; use <signal.h> instead."
 #endif
 
-#if (!defined __have_sigval_t \
-     && (defined _SIGNAL_H || defined __need_siginfo_t \
-	 || defined __need_sigevent_t))
-# define __have_sigval_t 1
-
-/* Type for data associated with a signal.  */
-typedef union sigval
-  {
-    int sival_int;
-    void *sival_ptr;
-  } sigval_t;
+/* Most of these constants are uniform across all architectures, but there
+   is one exception.  */
+#include <bits/siginfo-arch.h>
+#ifndef  __SI_ASYNCIO_AFTER_SIGIO
+# define __SI_ASYNCIO_AFTER_SIGIO 1
 #endif
-
-#if (!defined __have_siginfo_t \
-     && (defined _SIGNAL_H || defined __need_siginfo_t))
-# define __have_siginfo_t	1
-
-typedef struct siginfo
-  {
-    int si_signo;		/* Signal number.  */
-    int si_errno;		/* If non-zero, an errno value associated with
-				   this signal, as defined in <errno.h>.  */
-    int si_code;		/* Signal code.  */
-    __pid_t si_pid;		/* Sending process ID.  */
-    __uid_t si_uid;		/* Real user ID of sending process.  */
-    void *si_addr;		/* Address of faulting instruction.  */
-    int si_status;		/* Exit value or signal.  */
-    long int si_band;		/* Band event for SIGPOLL.  */
-    union sigval si_value;	/* Signal value.  */
-  } siginfo_t;
-
 
 /* Values for `si_code'.  Positive values are reserved for kernel-generated
    signals.  */
 enum
 {
-  SI_ASYNCIO = -4,		/* Sent by AIO completion.  */
-# define SI_ASYNCIO	SI_ASYNCIO
+  SI_ASYNCNL = -60,		/* Sent by asynch name lookup completion.  */
+  SI_TKILL = -6,		/* Sent by tkill.  */
+  SI_SIGIO,			/* Sent by queued SIGIO. */
+#if __SI_ASYNCIO_AFTER_SIGIO
+  SI_ASYNCIO,			/* Sent by AIO completion.  */
   SI_MESGQ,			/* Sent by real time mesq state change.  */
-# define SI_MESGQ	SI_MESGQ
   SI_TIMER,			/* Sent by timer expiration.  */
-# define SI_TIMER	SI_TIMER
+#else
+  SI_MESGQ,
+  SI_TIMER,
+  SI_ASYNCIO,
+#endif
   SI_QUEUE,			/* Sent by sigqueue.  */
-# define SI_QUEUE	SI_QUEUE
-  SI_USER			/* Sent by kill, sigsend, raise.  */
-# define SI_USER	SI_USER
+  SI_USER,			/* Sent by kill, sigsend.  */
+  SI_KERNEL = 0x80		/* Send by kernel.  */
+
+#define SI_ASYNCNL	SI_ASYNCNL
+#define SI_TKILL	SI_TKILL
+#define SI_SIGIO	SI_SIGIO
+#define SI_ASYNCIO	SI_ASYNCIO
+#define SI_MESGQ	SI_MESGQ
+#define SI_TIMER	SI_TIMER
+#define SI_ASYNCIO	SI_ASYNCIO
+#define SI_QUEUE	SI_QUEUE
+#define SI_USER		SI_USER
+#define SI_KERNEL	SI_KERNEL
 };
 
 
@@ -129,8 +122,12 @@ enum
 #  define BUS_ADRALN	BUS_ADRALN
   BUS_ADRERR,			/* Non-existant physical address.  */
 #  define BUS_ADRERR	BUS_ADRERR
-  BUS_OBJERR			/* Object specific hardware error.  */
+  BUS_OBJERR,			/* Object specific hardware error.  */
 #  define BUS_OBJERR	BUS_OBJERR
+  BUS_MCEERR_AR,		/* Hardware memory error: action required.  */
+#  define BUS_MCEERR_AR	BUS_MCEERR_AR
+  BUS_MCEERR_AO			/* Hardware memory error: action optional.  */
+#  define BUS_MCEERR_AO	BUS_MCEERR_AO
 };
 # endif
 
@@ -181,36 +178,10 @@ enum
 };
 # endif
 
-# undef __need_siginfo_t
-#endif	/* !have siginfo_t && (have _SIGNAL_H || need siginfo_t).  */
+/* Architectures might also add architecture-specific constants.
+   These are all considered GNU extensions.  */
+#ifdef __USE_GNU
+# include <bits/siginfo-consts-arch.h>
+#endif
 
-
-#if (defined _SIGNAL_H || defined __need_sigevent_t) \
-    && !defined __have_sigevent_t
-# define __have_sigevent_t	1
-
-/* Structure to transport application-defined values with signals.  */
-# define SIGEV_MAX_SIZE	64
-# define SIGEV_PAD_SIZE	((SIGEV_MAX_SIZE / sizeof (int)) - 3)
-
-typedef struct sigevent
-  {
-    sigval_t sigev_value;
-    int sigev_signo;
-    int sigev_notify;
-    void (*sigev_notify_function) (sigval_t);	    /* Function to start.  */
-    void *sigev_notify_attributes;		    /* Really pthread_attr_t.*/
-  } sigevent_t;
-
-/* `sigev_notify' values.  */
-enum
-{
-  SIGEV_SIGNAL = 0,		/* Notify via signal.  */
-# define SIGEV_SIGNAL	SIGEV_SIGNAL
-  SIGEV_NONE,			/* Other notification: meaningless.  */
-# define SIGEV_NONE	SIGEV_NONE
-  SIGEV_THREAD			/* Deliver via thread creation.  */
-# define SIGEV_THREAD	SIGEV_THREAD
-};
-
-#endif	/* have _SIGNAL_H.  */
+#endif
