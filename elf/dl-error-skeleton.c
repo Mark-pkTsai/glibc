@@ -53,7 +53,7 @@ struct catch
    Therefore we have to be prepared to save the state in thread-local
    memory.  */
 #if !DL_ERROR_BOOTSTRAP
-static __thread struct catch *catch_hook attribute_tls_model_ie;
+static __thread struct catch *catch_hook __attribute_tls_model_ie__;
 #else
 /* The version of this code in ld.so cannot use thread-local variables
    and is used during bootstrap only.  */

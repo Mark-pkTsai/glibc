@@ -241,7 +241,7 @@ __libc_tsd_define (extern, __locale_t, LOCALE)
    associated with this category.  */
 #define DEFINE_CATEGORY(category, category_name, items, a) \
 extern __thread struct __locale_data *const *_nl_current_##category \
-  attribute_hidden attribute_tls_model_ie;
+  attribute_hidden __attribute_tls_model_ie__;
 #include "categories.def"
 #undef	DEFINE_CATEGORY
 

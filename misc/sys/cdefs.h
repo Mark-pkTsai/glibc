@@ -326,6 +326,13 @@
 # define __attribute_artificial__ /* Ignore */
 #endif
 
+/* Force use of the initial-exec TLS model.  */
+#if __GNUC_PREREQ (3,3)
+# define __attribute_tls_model_ie__ __attribute__ ((tls_model ("initial-exec")))
+#else
+# define __attribute_tls_model_ie__ /* ignore */
+#endif
+
 /* GCC 4.3 and above with -std=c99 or -std=gnu99 implements ISO C99
    inline semantics, unless -fgnu89-inline is used.  Using __GNUC_STDC_INLINE__
    or __GNUC_GNU_INLINE is not a good enough check for gcc because gcc versions

@@ -11,7 +11,7 @@
 /* Variable used in non-threaded applications or for the first thread.  */
 static struct rpc_thread_variables __libc_tsd_RPC_VARS_mem;
 static __thread struct rpc_thread_variables *thread_rpc_vars
-        attribute_tls_model_ie;
+        __attribute_tls_model_ie__;
 
 /*
  * Task-variable destructor

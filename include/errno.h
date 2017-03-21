@@ -1,8 +1,6 @@
 #ifndef _ERRNO_H
-
 #include <stdlib/errno.h>
-
-#if defined _ERRNO_H && !defined _ISOMAC
+#if !defined _ISOMAC && !defined __ASSEMBLER__
 
 # if IS_IN (rtld)
 #  include <dl-sysdep.h>
@@ -32,21 +30,18 @@ extern int rtld_errno attribute_hidden;
 #  else
 #   define errno errno		/* For #ifndef errno tests.  */
 #  endif
-extern __thread int errno attribute_tls_model_ie;
+extern __thread int errno __attribute_tls_model_ie__;
 
 # endif	/* IS_IN_LIB */
 
 # define __set_errno(val) (errno = (val))
 
-# ifndef __ASSEMBLER__
-extern int *__errno_location (void) __THROW __attribute__ ((__const__))
+extern int *__errno_location (void) __THROW __attribute_const__
 #  if RTLD_PRIVATE_ERRNO
      attribute_hidden
 #  endif
 ;
 libc_hidden_proto (__errno_location)
-# endif
 
-#endif /* _ERRNO_H */
-
-#endif /* ! _ERRNO_H */
+#endif /* !_ISOMAC && !__ASSEMBLER__ */
+#endif /* !_ERRNO_H */

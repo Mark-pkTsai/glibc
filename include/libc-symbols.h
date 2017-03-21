@@ -361,8 +361,6 @@ for linking")
 # define attribute_hidden
 #endif
 
-#define attribute_tls_model_ie __attribute__ ((tls_model ("initial-exec")))
-
 #define attribute_relro __attribute__ ((section (".data.rel.ro")))
 
 

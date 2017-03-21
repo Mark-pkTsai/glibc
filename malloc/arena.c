@@ -71,7 +71,7 @@ extern int sanity_check_heap_info_alignment[(sizeof (heap_info)
 
 /* Thread specific data.  */
 
-static __thread mstate thread_arena attribute_tls_model_ie;
+static __thread mstate thread_arena __attribute_tls_model_ie__;
 
 /* Arena free list.  free_list_lock synchronizes access to the
    free_list variable below, and the next_free and attached_threads

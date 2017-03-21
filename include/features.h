@@ -137,6 +137,7 @@
 #undef	__USE_FORTIFY_LEVEL
 #undef	__KERNEL_STRICT_NAMES
 #undef	__GLIBC_USE_DEPRECATED_GETS
+#undef  __GLIBC_USE_TLS_ERRNO
 
 /* Suppress kernel-name space pollution unless user expressedly asks
    for it.  */
@@ -393,6 +394,11 @@
 #else
 # define __GLIBC_USE_DEPRECATED_GETS 1
 #endif
+
+/* Whether errno should be declared as a thread-local variable, or
+   as a macro that calls __errno_location.  This is the default;
+   bits/errno.h may override.  */
+#define __GLIBC_USE_TLS_ERRNO 0
 
 /* Get definitions of __STDC_* predefined macros, if the compiler has
    not preincluded this header automatically.  */

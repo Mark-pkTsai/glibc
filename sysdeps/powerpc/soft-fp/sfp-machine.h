@@ -103,12 +103,12 @@ libc_hidden_proto (__feraiseexcept_soft)
 
 #endif
 
-extern __thread int __sim_exceptions_thread attribute_tls_model_ie;
+extern __thread int __sim_exceptions_thread __attribute_tls_model_ie__;
 libc_hidden_tls_proto (__sim_exceptions_thread, tls_model ("initial-exec"));
-extern __thread int __sim_disabled_exceptions_thread attribute_tls_model_ie;
+extern __thread int __sim_disabled_exceptions_thread __attribute_tls_model_ie__;
 libc_hidden_tls_proto (__sim_disabled_exceptions_thread,
 		       tls_model ("initial-exec"));
-extern __thread int __sim_round_mode_thread attribute_tls_model_ie;
+extern __thread int __sim_round_mode_thread __attribute_tls_model_ie__;
 libc_hidden_tls_proto (__sim_round_mode_thread, tls_model ("initial-exec"));
 
 extern void __simulate_exceptions (int x) attribute_hidden;
