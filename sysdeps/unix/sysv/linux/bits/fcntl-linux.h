@@ -35,7 +35,7 @@
 */
 
 #ifdef __USE_GNU
-# include <bits/uio.h>
+# include <bits/types/struct_iovec.h>
 #endif
 
 /* open/fcntl.  */
@@ -339,7 +339,7 @@ __BEGIN_DECLS
 #ifdef __USE_GNU
 
 /* Provide kernel hint to read ahead.  */
-extern ssize_t readahead (int __fd, __off64_t __offset, size_t __count)
+extern __ssize_t readahead (int __fd, __off64_t __offset, size_t __count)
     __THROW;
 
 
@@ -355,23 +355,23 @@ extern int sync_file_range (int __fd, __off64_t __offset, __off64_t __count,
 
    This function is a possible cancellation point and therefore not
    marked with __THROW.  */
-extern ssize_t vmsplice (int __fdout, const struct iovec *__iov,
-			 size_t __count, unsigned int __flags);
+extern __ssize_t vmsplice (int __fdout, const struct iovec *__iov,
+                           size_t __count, unsigned int __flags);
 
 /* Splice two files together.
 
    This function is a possible cancellation point and therefore not
    marked with __THROW.  */
-extern ssize_t splice (int __fdin, __off64_t *__offin, int __fdout,
-		       __off64_t *__offout, size_t __len,
-		       unsigned int __flags);
+extern __ssize_t splice (int __fdin, __off64_t *__offin, int __fdout,
+                         __off64_t *__offout, size_t __len,
+                         unsigned int __flags);
 
 /* In-kernel implementation of tee for pipe buffers.
 
    This function is a possible cancellation point and therefore not
    marked with __THROW.  */
-extern ssize_t tee (int __fdin, int __fdout, size_t __len,
-		    unsigned int __flags);
+extern __ssize_t tee (int __fdin, int __fdout, size_t __len,
+                      unsigned int __flags);
 
 /* Reserve storage for the data of the file associated with FD.
 
