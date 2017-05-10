@@ -22,6 +22,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+__BEGIN_DECLS
+
 struct libc_ifunc_impl
 {
   /* The name of function to be tested.  */
@@ -52,5 +54,7 @@ struct libc_ifunc_impl
 extern size_t __libc_ifunc_impl_list (const char *name,
 				      struct libc_ifunc_impl *array,
 				      size_t max);
+
+__END_DECLS
 
 #endif /* ifunc-impl-list.h */
