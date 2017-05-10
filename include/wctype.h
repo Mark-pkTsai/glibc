@@ -1,6 +1,6 @@
 #ifndef _WCTYPE_H
 
-#ifndef _ISOMAC
+#if !defined _ISOMAC && !defined __cplusplus
 /* We try to get wint_t from <stddef.h>, but not all GCC versions define it
    there.  So define it ourselves if it remains undefined.  */
 # define __need_wint_t
@@ -38,7 +38,7 @@ libc_hidden_proto (towupper)
 
 #include <wctype/wctype.h>
 
-#ifndef _ISOMAC
+#if !defined _ISOMAC && !defined __cplusplus
 /* Internal interfaces.  */
 extern int __iswspace (wint_t __wc);
 extern int __iswctype (wint_t __wc, wctype_t __desc);
